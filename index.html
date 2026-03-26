@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adhish Mahesh | Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@700;800&display=swap"
+        rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Syne', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: '#121212',
+                        surface: 'rgba(255, 255, 255, 0.03)',
+                        border: 'rgba(255, 255, 255, 0.08)',
+                        muted: '#B3B3B3'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Glassmorphism utilities */
+        .glass {
+            background: var(--surface, rgba(255, 255, 255, 0.03));
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border, rgba(255, 255, 255, 0.08));
+        }
+
+        .text-outline {
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Nav CTA Button hover effect */
+        .nav-cta {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-cta::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s ease, height 0.4s ease;
+        }
+
+        .nav-cta:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* Lenis smooth scroll */
+        html.lenis {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto;
+        }
+
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+
+        .lenis.lenis-scrolling iframe {
+            pointer-events: none;
+        }
+
+        /* Marquee */
+        .marquee-container {
+            width: 100vw;
+            max-width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            padding: 2rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 20s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* 3D Spline container */
+        #spline-container {
+            width: 100%;
+            height: 60vh;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Projects hover */
+        .project-row:hover .project-bg {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        .project-row:hover .project-btn {
+            background: white;
+            color: black;
+        }
+
+        .huge-text {
+            font-size: clamp(4rem, 12vw, 12rem);
+            line-height: 0.9;
+        }
+
+        .mask-video {
+            -webkit-mask-image: linear-gradient(to bottom, black 30%, transparent 100%);
+            mask-image: linear-gradient(to bottom, black 30%, transparent 100%);
+        }
+    </style>
+</head>
+
+<body class="antialiased font-sans selection:bg-white selection:text-black">
+
+    <nav class="fixed top-0 w-full z-50 glass px-6 py-4 flex justify-between items-center bg-[#121212]/80">
+        <div class="text-xl font-display font-bold tracking-wider cursor-pointer">ADHISH MAHESH</div>
+        <ul class="hidden md:flex gap-8 text-sm font-medium tracking-wide text-muted">
+            <li><a href="#work" class="hover:text-white transition-colors">PROJECTS</a></li>
+            <li><a href="#services" class="hover:text-white transition-colors">SKILLS</a></li>
+            <li><a href="#about" class="hover:text-white transition-colors">ABOUT</a></li>
+        </ul>
+        <a href="#contact"
+            class="nav-cta bg-white text-black px-6 py-2.5 rounded-full text-sm font-bold tracking-wide transition-transform hover:scale-105">
+            <span class="relative z-10">CONTACT ME</span>
+        </a>
+    </nav>
+
+    <section
+        class="min-h-[85vh] pt-24 pb-8 flex flex-col items-center justify-center gap-12 relative overflow-hidden mt-10">
+
+        <div id="spline-container"
+            class="absolute top-[50%] -translate-y-1/2 w-full flex justify-center opacity-80 pointer-events-none">
+            <div class="w-64 h-64 md:w-96 md:h-96 rounded-full bg-blue-500/20 blur-[100px]"></div>
+            <div class="absolute w-48 h-48 md:w-72 md:h-72 rounded-full bg-purple-500/20 blur-[80px] translate-x-32">
+            </div>
+        </div>
+
+        <div class="text-center z-20 mt-12 px-4 w-full">
+            <h1 class="font-display font-extrabold huge-text tracking-tighter title-anim split-text uppercase">
+                HI, I'M <span
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 drop-shadow-[0_0_15px_rgba(59,130,246,0.5)] z-10 relative">ADHISH</span>
+            </h1>
+            <p class="mt-6 text-muted max-w-2xl mx-auto text-sm md:text-base tracking-widest uppercase title-anim">
+                A GAME DESIGNER & 3D ARTIST CRAFTING BOLD AND MEMORABLE PROJECTS 
+            </p>
+        </div>
+
+        <div class="marquee-container z-20 title-anim">
+            <div class="marquee-content flex gap-12 text-sm font-bold text-muted tracking-widest uppercase">
+                <span>✦ UNITY 3D</span>
+                <span>✦ BLENDER EXCELLENCE</span>
+                <span>✦ GAME MECHANICS</span>
+                <span>✦ UI/UX DASHBOARDS</span>
+                <span>✦ IMMERSIVE WORLDS</span>
+                <span>✦ UNITY 3D</span>
+                <span>✦ BLENDER EXCELLENCE</span>
+                <span>✦ GAME MECHANICS</span>
+                <span>✦ UI/UX DASHBOARDS</span>
+                <span>✦ IMMERSIVE WORLDS</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="relative py-32 mt-24">
+        <h2
+            class="absolute top-1/2 left-0 -translate-y-1/2 w-full text-center font-display font-extrabold text-[15vw] text-outline opacity-50 z-0 select-none whitespace-nowrap overflow-hidden">
+            SKILLS
+        </h2>
+
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="text-center mb-16 item-anim">
+                <h3 class="font-display text-4xl mb-4 text-white">CORE TECHNICAL SKILLS</h3>
+                <p class="text-muted leading-relaxed max-w-2xl mx-auto">
+                    Merging code, creativity, and interactive design to build immersive experiences.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 item-anim">
+                <div class="glass p-8 rounded-3xl hover:bg-white/[0.05] transition-transform hover:-translate-y-2 duration-300 border border-white/10 group flex flex-col h-full">
+                    <h4 class="font-display text-xl mb-6 text-blue-400">Game Development</h4>
+                    <ul class="text-muted text-sm space-y-3 font-medium">
+                        <li class="flex items-start"><span class="mr-2 text-white">✦</span> Unity 3D & Prototyping</li>
+                        <li class="flex items-start"><span class="mr-2 text-white">✦</span> Gameplay Mechanics</li>
+                        <li class="flex items-start"><span class="mr-2 text-white">✦</span> Combat Systems</li>
+                        <li class="flex items-start"><span class="mr-2 text-white">✦</span> Game Balancing</li>
+                    </ul>
+                </div>
+
+                <div class="glass p-8 rounded-3xl hover:bg-white/[0.05] transition-transform hover:-translate-y-2 duration-300 border border-white/10 group flex flex-col h-full">
+                    <h4 class="font-display text-xl mb-6 text-purple-400">3D Art & Pipelines</h4>
+                    <ul class="text-muted text-sm space-y-3 font-medium">
+                        <li class="flex items-start"><span class="mr-2 text-white">✦</span> Blender (Env/Hard Surface)</li>
+                        <li class="flex items-start"><span class="mr-2 text-white">✦</span> Asset Management</li>
+                        <li class="flex items-start"><span class="mr-2 text-white">✦</span> UV Mapping & Textures</li>
+                        <li class="flex items-start"><span class="mr-2 text-white">✦</span> Materials & Render</li>
+                    </ul>
+                </div>
+
+                <div class="glass p-8 rounded-3xl hover:bg-white/[0.05] transition-transform hover:-translate-y-2 duration-300 border border-white/10 group flex flex-col h-full">
+                    <h4 class="font-display text-xl mb-6 text-emerald-400">UI/UX & 2D Art</h4>
+                    <ul class="text-muted text-sm space-y-3 font-medium">
+                        <li class="flex items-start"><span class="mr-2 text-white">✦</span> Figma & Wireframes</li>
+                        <li class="flex items-start"><span class="mr-2 text-white">✦</span> HUD Design & Layouts</li>
+                        <li class="flex items-start"><span class="mr-2 text-white">✦</span> Ibis Paint X & Canva</li>
+                        <li class="flex items-start"><span class="mr-2 text-white">✦</span> Interactive Flow</li>
+                    </ul>
+                </div>
+
+                <div class="glass p-8 rounded-3xl hover:bg-white/[0.05] transition-transform hover:-translate-y-2 duration-300 border border-white/10 group flex flex-col h-full">
+                    <h4 class="font-display text-xl mb-6 text-pink-400">Programming</h4>
+                    <ul class="text-muted text-sm space-y-3 font-medium">
+                        <li class="flex items-start"><span class="mr-2 text-white">✦</span> HTML5</li>
+                        <li class="flex items-start"><span class="mr-2 text-white">✦</span> CSS3 / Tailwind</li>
+                        <li class="flex items-start"><span class="mr-2 text-white">✦</span> JavaScript</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="work" class="py-32">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between items-end mb-16 item-anim">
+                <h2 class="font-display text-5xl md:text-7xl uppercase">Projects</h2>
+                <p class="text-muted text-sm max-w-xs mb-2 hidden md:block">A curated collection of my most recent and
+                    ambitious projects combining art and technology.</p>
+            </div>
+
+            <div class="border-t border-white/10 flex flex-col">
+
+                <div class="project-row relative border-b border-white/10 py-12 md:py-16 flex flex-col md:flex-row justify-between items-center cursor-pointer group w-full overflow-hidden item-anim"
+                    onclick="openProject('1')">
+                    <div class="absolute inset-0 bg-gradient-to-r from-blue-600/30 to-black/50 z-0 opacity-0 project-bg transition-opacity duration-700 pointer-events-none"></div>
+                    <div class="relative z-10 w-full flex flex-col md:flex-row justify-between items-center px-4 md:px-8">
+                        <div class="w-full md:w-auto text-left mb-6 md:mb-0">
+                            <span class="text-muted text-xs font-mono mb-2 block tracking-[0.2em] group-hover:text-white transition-colors">01 TYPE: UNITY 3D</span>
+                            <h3 class="font-display text-4xl md:text-5xl group-hover:translate-x-4 transition-transform duration-500">First Person Shooter</h3>
+                        </div>
+                        <div class="w-full md:w-auto flex justify-start md:justify-end">
+                            <button class="project-btn px-8 py-3 rounded-full border border-white/20 text-sm font-bold tracking-widest transition-all duration-300 backdrop-blur-md">LIVE PROJECT</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-row relative border-b border-white/10 py-12 md:py-16 flex flex-col md:flex-row justify-between teammates-center cursor-pointer group w-full overflow-hidden item-anim"
+                    onclick="openProject('2')">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-600/30 to-black/50 z-0 opacity-0 project-bg transition-opacity duration-700 pointer-events-none"></div>
+                    <div class="relative z-10 w-full flex flex-col md:flex-row justify-between items-center px-4 md:px-8">
+                        <div class="w-full md:w-auto text-left mb-6 md:mb-0">
+                            <span class="text-muted text-xs font-mono mb-2 block tracking-[0.2em] group-hover:text-white transition-colors">02 TYPE: BLENDER ENV</span>
+                            <h3 class="font-display text-4xl md:text-5xl group-hover:translate-x-4 transition-transform duration-500">3D Models & Environments</h3>
+                        </div>
+                        <div class="w-full md:w-auto flex justify-start md:justify-end">
+                            <button class="project-btn px-8 py-3 rounded-full border border-white/20 text-sm font-bold tracking-widest transition-all duration-300 backdrop-blur-md">LIVE PROJECT</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-row relative border-b border-white/10 py-12 md:py-16 flex flex-col md:flex-row justify-between items-center cursor-pointer group w-full overflow-hidden item-anim"
+                    onclick="openProject('3')">
+                    <div class="absolute inset-0 bg-gradient-to-r from-emerald-600/30 to-black/50 z-0 opacity-0 project-bg transition-opacity duration-700 pointer-events-none"></div>
+                    <div class="relative z-10 w-full flex flex-col md:flex-row justify-between items-center px-4 md:px-8">
+                        <div class="w-full md:w-auto text-left mb-6 md:mb-0">
+                            <span class="text-muted text-xs font-mono mb-2 block tracking-[0.2em] group-hover:text-white transition-colors">03 TYPE: 2D ART</span>
+                            <h3 class="font-display text-4xl md:text-5xl group-hover:translate-x-4 transition-transform duration-500">2D Illustrations</h3>
+                        </div>
+                        <div class="w-full md:w-auto flex justify-start md:justify-end">
+                            <button class="project-btn px-8 py-3 rounded-full border border-white/20 text-sm font-bold tracking-widest transition-all duration-300 backdrop-blur-md">LIVE PROJECT</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-32 bg-[#171717]/30 border-t border-white/5 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="font-display text-4xl mb-16 text-center">JOURNEY & EDUCATION</h2>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="glass p-8 rounded-3xl flex flex-col h-full item-anim">
+                    <p class="text-muted mb-8 leading-relaxed italic text-[15px]">
+                        "B.Tech in Computer Science and Design, blending deep technical foundations with creative methodologies."
+                    </p>
+                    <div class="flex items-center gap-4 mt-auto pt-6 border-t border-white/10">
+                        <div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center font-bold">VJ</div>
+                        <div>
+                            <h5 class="font-bold text-sm tracking-wide">Vimal Jyothi Eng. College</h5>
+                            <span class="text-xs text-muted block uppercase tracking-wider mt-1">2022 - Present</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass p-8 rounded-3xl flex flex-col h-full item-anim">
+                    <p class="text-muted mb-8 leading-relaxed italic text-[15px]">
+                        "Higher Secondary in Computer Science, where my algorithmic journey and programming logic began."
+                    </p>
+                    <div class="flex items-center gap-4 mt-auto pt-6 border-t border-white/10">
+                        <div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center font-bold">CH</div>
+                        <div>
+                            <h5 class="font-bold text-sm tracking-wide">Chovva Higher Sec.</h5>
+                            <span class="text-xs text-muted block uppercase tracking-wider mt-1">2020 - 2021</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass p-8 rounded-3xl flex flex-col h-full item-anim">
+                    <p class="text-muted mb-8 leading-relaxed italic text-[15px]">
+                        "Foundational education building core competencies and technical aptitude."
+                    </p>
+                    <div class="flex items-center gap-4 mt-auto pt-6 border-t border-white/10">
+                        <div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center font-bold">TH</div>
+                        <div>
+                            <h5 class="font-bold text-sm tracking-wide">Technical High School</h5>
+                            <span class="text-xs text-muted block uppercase tracking-wider mt-1">2017 - 2019</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact" class="py-32 relative overflow-hidden">
+        <h2 class="absolute top-0 left-0 w-full text-center font-display font-extrabold text-[15vw] text-outline opacity-20 z-0 pointer-events-none whitespace-nowrap overflow-hidden">LET'S TALK</h2>
+
+        <div class="max-w-4xl mx-auto px-6 text-center relative z-10 flex flex-col items-center">
+            <h3 class="font-display text-5xl md:text-7xl mb-6">START A PROJECT</h3>
+            <p class="text-muted text-lg max-w-xl mx-auto mb-12">I'm actively seeking opportunities in game studios, creative tech, or digital entertainment companies where art and code collide.</p>
+
+            <a href="mailto:adhishmahesh06@gmail.com" class="bg-white text-black px-10 py-4 rounded-full font-bold tracking-widest text-sm hover:scale-105 transition-transform">SEND AN EMAIL</a>
+
+            <div class="flex gap-8 mt-20 pt-10 border-t border-white/10 w-full justify-center">
+                <a href="https://www.linkedin.com/in/adhish-mahesh-5021a7324" class="text-sm tracking-widest font-medium text-muted hover:text-white transition-colors uppercase">LinkedIn</a>
+                <a href="https://adhishmahesh165.artstation.com" class="text-sm tracking-widest font-medium text-muted hover:text-white transition-colors uppercase">ArtStation</a>
+                <a href="tel:+916282275671" class="text-sm tracking-widest font-medium text-muted hover:text-white transition-colors uppercase">+91 6282275671</a>
+            </div>
+        </div>
+    </footer>
+
+    <div id="project-modal" class="fixed inset-0 bg-[#121212]/95 backdrop-blur-3xl z-[100] h-[100dvh] w-full overflow-y-auto hidden" data-lenis-prevent>
+        <div class="relative w-full min-h-full flex flex-col">
+
+            <div id="modal-video-container" class="absolute top-0 left-0 w-full h-[60vh] z-0 pointer-events-none overflow-hidden mask-video opacity-20"></div>
+
+            <div class="sticky top-0 w-full bg-[#121212]/80 backdrop-blur-md z-50 px-6 py-6 border-b border-white/10 flex justify-between items-center relative">
+                <div class="font-display text-xl font-bold tracking-wider">PROJECT DETAILS</div>
+                <button onclick="closeProject()" class="text-sm font-bold tracking-widest px-6 py-2 border border-white/20 rounded-full hover:bg-white hover:text-black transition-colors">CLOSE &times;</button>
+            </div>
+
+            <div class="max-w-7xl mx-auto px-6 py-16 relative z-10 flex-grow w-full">
+                <span id="p-tags" class="text-sm font-mono tracking-widest mb-4 block text-blue-400"></span>
+                <h1 id="p-title" class="font-display text-5xl md:text-7xl mb-12">Title</h1>
+
+                <div class="grid lg:grid-cols-12 gap-12 items-start">
+                    <div class="lg:col-span-7 space-y-8" id="visuals-container"></div>
+
+                    <div class="lg:col-span-5 sticky top-28">
+                        <div class="glass p-8 rounded-3xl border border-white/10 h-auto">
+                            <h3 class="font-display text-2xl mb-6 text-white">Project Overview</h3>
+                            <div class="prose prose-invert prose-lg max-w-none text-muted" id="p-desc"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+            infinite: false,
+        })
+
+        function raf(time) {
+            lenis.raf(time)
+            requestAnimationFrame(raf)
+        }
+        requestAnimationFrame(raf)
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.from(".title-anim", {
+            y: 50,
+            opacity: 0,
+            duration: 1,
+            stagger: 0.2,
+            ease: "power3.out",
+            delay: 0.2
+        });
+
+        gsap.utils.toArray('.item-anim').forEach(item => {
+            gsap.from(item, {
+                scrollTrigger: {
+                    trigger: item,
+                    start: "top 85%",
+                },
+                y: 40,
+                opacity: 0,
+                duration: 0.8,
+                ease: "power2.out"
+            });
+        });
+
+        const projectsData = {
+            "1": {
+                title: "First Person Shooter Game",
+                tags: "UNITY 3D & BLENDER",
+                layoutType: "video_showcase",
+                bgVideo: "file:///C:/Users/adhis/OneDrive/Desktop/blender image render/mini project/bgv.mp4",
+                showcaseVideo: "file:///C:/Users/adhis/OneDrive/Desktop/blender image render/mini project/Recording 2026-01-15 194048.mp4",
+                images: [
+                    "file:///C:/Users/adhis/OneDrive/Pictures/Screenshots/Screenshot 2026-03-26 212704.png",
+                    "file:///C:/Users/adhis/OneDrive/Desktop/blender image render/mini project/Screenshot 2026-01-11 195933.png"
+                ],
+                description: `
+                    <p class="mb-6 text-lg text-white leading-relaxed">
+                        A high-stakes, single-player survival FPS built in Unity3D. Set in a stylized, hostile world, players must balance resource management and tactical gunplay to survive relentless waves of mutant AI.
+                    </p>
+
+                    <div class="grid grid-cols-2 gap-4 mb-8">
+                        <div class="glass p-4 rounded-xl border border-white/5">
+                            <span class="text-xs text-blue-400 font-mono tracking-wider block mb-1">ENGINE</span>
+                            <span class="text-sm text-white font-medium">Unity 3D / C#</span>
+                        </div>
+                        <div class="glass p-4 rounded-xl border border-white/5">
+                            <span class="text-xs text-purple-400 font-mono tracking-wider block mb-1">3D PIPELINE</span>
+                            <span class="text-sm text-white font-medium">Blender / Hard Surface</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="text-sm font-bold tracking-widest text-white uppercase mb-3 flex items-center">
+                                <span class="w-1.5 h-1.5 bg-blue-500 rounded-full mr-2"></span> Core Gameplay & Systems
+                            </h4>
+                            <ul class="text-sm space-y-2.5 text-muted pl-4 list-disc marker:text-blue-500">
+                                <li><strong class="text-white">Dynamic Enemy AI:</strong> Wave-based survival loops with scaling difficulty curves and procedural tracking behaviors.</li>
+                                <li><strong class="text-white">Tactical Scavenging:</strong> Real-time inventory pressure relying on strict ammunition and health economy.</li>
+                                <li><strong class="text-white">Interactive Spatial Design:</strong> Multi-layered environments allowing players to find vantage positions.</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-bold tracking-widest text-white uppercase mb-3 flex items-center">
+                                <span class="w-1.5 h-1.5 bg-purple-500 rounded-full mr-2"></span> Art & Environment Pipeline
+                            </h4>
+                            <ul class="text-sm space-y-2.5 text-muted pl-4 list-disc marker:text-purple-500">
+                                <li>Prop and asset modeling standardizing high-to-low poly baking in <strong class="text-white">Blender</strong>.</li>
+                                <li>Atmospheric environmental immersion through dynamic Unity lighting, visual grading, and directional audio cues.</li>
+                                <li>Modular environmental building blocks ensuring low memory draw calls and runtime engine optimization.</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            "2": {
+                title: "3D Models & Environments",
+                tags: "BLENDER CONCEPT DESIGN",
+                layoutType: "image_gallery",
+                bgVideo: "file:///C:/Users/adhis/Downloads/3d_Product_Animation_in_Blender_1080P.mp4",
+                images: [
+                   "file:///C:/Users/adhis/OneDrive/Desktop/blender image render/donut.jpg",
+                   "file:///C:/Users/adhis/OneDrive/Desktop/blender image render/LANDSCAPE.png",
+                   "file:///C:/Users/adhis/OneDrive/Desktop/blender image render/room.jpg"
+                ],
+                description: `
+                    <p class="mb-6 text-lg text-white leading-relaxed">
+                        A deep-dive into cinematic world-building and environment staging. This project highlights a professional pipeline of architectural spaces, interior rendering, and hard-surface asset props sculpted and modeled entirely within Blender.
+                    </p>
+
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+                        <div class="glass p-4 rounded-xl border border-white/5">
+                            <span class="text-xs text-purple-400 font-mono tracking-wider block mb-1">PLATFORM</span>
+                            <span class="text-sm text-white font-medium">Blender 3D</span>
+                        </div>
+                        <div class="glass p-4 rounded-xl border border-white/5">
+                            <span class="text-xs text-emerald-400 font-mono tracking-wider block mb-1">VISUAL STYLE</span>
+                            <span class="text-sm text-white font-medium">Stylized & Realism</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-8">
+                        <div>
+                            <h4 class="text-sm font-bold tracking-widest text-white uppercase mb-3 flex items-center">
+                                <span class="w-1.5 h-1.5 bg-purple-500 rounded-full mr-2"></span> Hard-Surface Modeling
+                            </h4>
+                            <ul class="text-sm space-y-2.5 text-muted pl-4 list-disc marker:text-purple-500">
+                                <li>Utilized <strong class="text-white">non-destructive workflows</strong> leveraging boolean modifiers, weighted normals, and clean subdivision surface topology.</li>
+                                <li>Balanced bevel weights and edge loops to maintain sharp industrial silhouettes without sacrificing polygon counts.</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-bold tracking-widest text-white uppercase mb-3 flex items-center">
+                                <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full mr-2"></span> Lighting, Scene Setups & Scale
+                            </h4>
+                            <ul class="text-sm space-y-2.5 text-muted pl-4 list-disc marker:text-emerald-500">
+                                <li>Architectural blocking emphasizing accurate spatial proportions, camera composition, and depth of field.</li>
+                                <li>Implemented volumetric lighting, three-point illumination setups, and custom HDRIs to isolate hero props and set cinematic atmospheres.</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            "3": {
+                title: "2D Illustrations",
+                tags: "DIGITAL SKETCHES & PAINTS",
+                layoutType: "image_gallery",
+                bgVideo: "file:///C:/Users/adhis/Downloads/Procreate_clouds_tutorial_procreatebrushes_procreatetutorial_720P.mp4",
+                images: [
+                    "file:///C:/Users/adhis/Downloads/illust/silverstorm.jpeg",
+                    "file:///C:/Users/adhis/Downloads/illust/theyyam.jpeg",
+                    "file:///C:/Users/adhis/Downloads/illust/bhramayuga.jpeg",
+                    "file:///C:/Users/adhis/Downloads/illust/hanumankind%20x%20theyyam.jpeg",
+                    "file:///C:/Users/adhis/Downloads/illust/jerry%20mag.jpeg",
+                    "file:///C:/Users/adhis/Downloads/illust/jerry%20maguire.jpeg",
+                    "file:///C:/Users/adhis/Downloads/illust/luna.jpeg",
+                    "file:///C:/Users/adhis/Downloads/illust/ivan.jpeg",
+                    "file:///C:/Users/adhis/Downloads/illust/supra....jpeg",
+                    "file:///C:/Users/adhis/Downloads/illust/800.jpeg",
+                    "file:///C:/Users/adhis/Downloads/illust/godzilla.jpeg",
+                    "file:///C:/Users/adhis/Downloads/illust/messi.jpeg",
+                    "file:///C:/Users/adhis/Downloads/illust/sita%20ramam.jpeg",
+                    "file:///C:/Users/adhis/Downloads/illust/trio.jpeg",
+                    "file:///C:/Users/adhis/Downloads/illust/goat.jpeg",
+                    "file:///C:/Users/adhis/Downloads/illust/bmw.jpeg",
+                    "file:///C:/Users/adhis/Downloads/illust/anime.jpeg",
+                    "file:///C:/Users/adhis/Downloads/illust/pedri.jpeg",
+                    "file:///C:/Users/adhis/Downloads/illust/ssr.jpeg",
+                    "file:///C:/Users/adhis/Downloads/illust/licha.jpeg",
+                    "file:///C:/Users/adhis/Downloads/illust/r.leo.jpeg",
+                    "file:///C:/Users/adhis/Downloads/illust/vinayakan.jpeg",
+                    "file:///C:/Users/adhis/Downloads/illust/suresh%20raina.jpeg",
+                    "file:///C:/Users/adhis/Downloads/illust/amban.jpeg",
+                    "file:///C:/Users/adhis/Downloads/illust/cricket.jpeg"
+                ],
+                description: `
+                    <p class="mb-6 text-lg text-white leading-relaxed">
+                        A visual showcase of digital sketches, character art, and thematic portraits painted entirely on Ibis Paint X, blending cinematic lighting with graphic composition.
+                    </p>
+
+                    <div class="grid grid-cols-2 gap-4 mb-8">
+                        <div class="glass p-4 rounded-xl border border-white/5">
+                            <span class="text-xs text-emerald-400 font-mono tracking-wider block mb-1">DCC TOOL</span>
+                            <span class="text-sm text-white font-medium">Ibis Paint X</span>
+                        </div>
+                        <div class="glass p-4 rounded-xl border border-white/5">
+                            <span class="text-xs text-pink-400 font-mono tracking-wider block mb-1">STYLE</span>
+                            <span class="text-sm text-white font-medium">Digital Paint & Stylized</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="text-sm font-bold tracking-widest text-white uppercase mb-3 flex items-center">
+                                <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full mr-2"></span> Visual Storytelling & Techniques
+                            </h4>
+                            <ul class="text-sm space-y-2.5 text-muted pl-4 list-disc marker:text-emerald-500">
+                                <li>High-contrast cell shading and soft brush blending for dynamic character lighting.</li>
+                                <li>Digital canvas layered compositing to replicate cinematic poster layouts.</li>
+                                <li>Expressive linework balancing rapid thumbnail sketching with clean, final rendering.</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            }
+        };
+
+        const modal = document.getElementById('project-modal');
+
+        window.openProject = function (id) {
+            const data = projectsData[id];
+            if (!data) return;
+
+            document.getElementById('p-title').innerHTML = data.title;
+            document.getElementById('p-tags').innerHTML = data.tags;
+            document.getElementById('p-desc').innerHTML = data.description;
+
+            const bgVidContainer = document.getElementById('modal-video-container');
+            if (data.bgVideo) {
+                bgVidContainer.innerHTML = `<video src="${data.bgVideo}" autoplay loop muted playsinline class="w-full h-full object-cover"></video>`;
+            } else {
+                bgVidContainer.innerHTML = '';
+            }
+
+            const visualBox = document.getElementById('visuals-container');
+            visualBox.innerHTML = ''; 
+
+            if (data.layoutType === "video_showcase") {
+                let htmlContent = '';
+                if (data.showcaseVideo) {
+                    htmlContent += `
+                        <div class="w-full h-80 md:h-[450px] bg-surface rounded-3xl overflow-hidden border border-white/10 relative">
+                            <video src="${data.showcaseVideo}" controls autoplay loop muted playsinline class="w-full h-full object-cover"></video>
+                        </div>
+                    `;
+                }
+                if (data.images && data.images.length > 0) {
+                    htmlContent += `<div class="grid grid-cols-2 gap-4">`;
+                    data.images.forEach(img => {
+                        htmlContent += `
+                            <div class="h-52 bg-surface rounded-2xl overflow-hidden border border-white/10 group">
+                                <img src="${img}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/1e1e1e/fff?text=Photo+Place'">
+                            </div>
+                        `;
+                    });
+                    htmlContent += `</div>`;
+                }
+                visualBox.innerHTML = htmlContent;
+
+            } else if (data.layoutType === "image_gallery") {
+                let htmlContent = `<div class="grid grid-cols-1 md:grid-cols-2 gap-6">`;
+                data.images.forEach((img, index) => {
+                    const gridClass = index === 0 ? "md:col-span-2 h-96" : "h-64";
+                    htmlContent += `
+                        <div class="${gridClass} bg-surface rounded-3xl overflow-hidden border border-white/10 relative group hover:border-white/30 transition-all duration-300">
+                            <img src="${img}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/1e1e1e/fff?text=Rendering+Slot'">
+                            <div class="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                                <span class="text-xs font-mono uppercase tracking-widest text-white">Item Node #${index + 1}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+                htmlContent += `</div>`;
+                visualBox.innerHTML = htmlContent;
+            }
+
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        window.closeProject = function () {
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+            document.getElementById('modal-video-container').innerHTML = ''; 
+            document.getElementById('visuals-container').innerHTML = ''; 
+        }
+    </script>
+</body>
+
+</html>
